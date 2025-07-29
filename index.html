@@ -12,71 +12,143 @@
         body {
             font-family: 'Inter', sans-serif;
             background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+            min-height: 100vh;
+            padding: 20px;
         }
         .loader {
-            border-top-color: #3b82f6;
-            animation: spinner 1.5s linear infinite;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3b82f6;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1.5s linear infinite;
         }
-        @keyframes spinner {
+        @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
         .format-card {
             transition: all 0.3s ease;
             cursor: pointer;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            background: white;
         }
         .format-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            border-color: #3b82f6;
         }
         .format-card.active {
             border-color: #3b82f6;
             background-color: #dbeafe;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
         }
         .quality-slider {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 8px;
+            border-radius: 4px;
             background: linear-gradient(to right, #ef4444, #f59e0b, #10b981);
+            outline: none;
         }
         .quality-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
             background: #3b82f6;
+            cursor: pointer;
             box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+            border: 2px solid white;
+        }
+        .quality-slider::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #3b82f6;
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+            border: 2px solid white;
         }
         .image-card {
             transition: all 0.3s ease;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
         .image-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
         }
         .download-btn {
             transition: all 0.2s ease;
+            background: linear-gradient(to right, #3b82f6, #2563eb);
+            color: white;
+            font-weight: bold;
+            padding: 10px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
         }
         .download-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            background: linear-gradient(to right, #2563eb, #1d4ed8);
         }
         .upload-container {
             transition: all 0.3s ease;
+            border: 3px dashed #cbd5e1;
+            border-radius: 16px;
+            padding: 40px 20px;
+            text-align: center;
+            cursor: pointer;
+            background: #f8fafc;
         }
         .upload-container:hover {
-            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.2);
+            border-color: #3b82f6;
+            background: #ebf8ff;
+            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.15);
+        }
+        .main-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            max-width: 1000px;
+            width: 100%;
+            margin: 20px auto;
+        }
+        .header-gradient {
+            background: linear-gradient(to right, #3b82f6, #6366f1);
+            padding: 25px 30px;
+            color: white;
         }
     </style>
 </head>
-<body class="min-h-screen p-4 flex items-center justify-center">
-    <div class="w-full max-w-5xl bg-white rounded-2xl shadow-xl overflow-hidden">
+<body>
+    <div class="main-container">
         <!-- Cabecera -->
-        <div class="bg-gradient-to-r from-blue-600 to-indigo-700 p-6 text-white">
+        <div class="header-gradient">
             <div class="flex flex-col md:flex-row justify-between items-center">
                 <div>
-                    <h1 class="text-2xl md:text-3xl font-bold"><i class="fas fa-file-image mr-3"></i>Convertidor de PDF a Imágenes</h1>
+                    <h1 class="text-2xl md:text-3xl font-bold">
+                        <i class="fas fa-file-image mr-3"></i>Convertidor de PDF a Imágenes
+                    </h1>
                     <p class="mt-2 opacity-90">Convierte cada página de tu PDF a JPG, PNG o WEBP</p>
                 </div>
-                <div class="mt-4 md:mt-0 flex items-center space-x-2">
-                    <div class="bg-blue-500 rounded-full p-2">
-                        <i class="fas fa-sliders-h text-white"></i>
+                <div class="mt-4 md:mt-0 flex items-center space-x-3">
+                    <div class="bg-white bg-opacity-20 rounded-full p-3">
+                        <i class="fas fa-sync-alt text-white"></i>
                     </div>
-                    <div class="bg-indigo-500 rounded-full p-2">
-                        <i class="fas fa-download text-white"></i>
+                    <div class="bg-white bg-opacity-20 rounded-full p-3">
+                        <i class="fas fa-cog text-white"></i>
                     </div>
                 </div>
             </div>
@@ -88,25 +160,27 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
                 <!-- Selector de formato -->
                 <div class="bg-blue-50 rounded-xl p-6">
-                    <h2 class="text-lg font-bold text-gray-800 mb-4"><i class="fas fa-file-image text-blue-600 mr-2"></i>Formato de Salida</h2>
+                    <h2 class="text-lg font-bold text-gray-800 mb-4">
+                        <i class="fas fa-file-image text-blue-600 mr-2"></i>Formato de Salida
+                    </h2>
                     <div class="grid grid-cols-3 gap-4">
-                        <div class="format-card active border-2 border-blue-300 rounded-lg p-4 text-center bg-white" data-format="jpg">
-                            <div class="mx-auto bg-blue-100 rounded-full w-12 h-12 flex items-center justify-center mb-3">
-                                <i class="fas fa-file-image text-blue-600 text-xl"></i>
+                        <div class="format-card active" data-format="jpg">
+                            <div class="mx-auto bg-blue-100 rounded-full w-14 h-14 flex items-center justify-center mb-3">
+                                <i class="fas fa-file-image text-blue-600 text-2xl"></i>
                             </div>
                             <h3 class="font-bold text-gray-800">JPG</h3>
                             <p class="text-xs text-gray-600 mt-1">Con compresión</p>
                         </div>
-                        <div class="format-card border-2 border-gray-200 rounded-lg p-4 text-center bg-white" data-format="png">
-                            <div class="mx-auto bg-blue-100 rounded-full w-12 h-12 flex items-center justify-center mb-3">
-                                <i class="fas fa-file-image text-blue-600 text-xl"></i>
+                        <div class="format-card" data-format="png">
+                            <div class="mx-auto bg-blue-100 rounded-full w-14 h-14 flex items-center justify-center mb-3">
+                                <i class="fas fa-file-image text-blue-600 text-2xl"></i>
                             </div>
                             <h3 class="font-bold text-gray-800">PNG</h3>
                             <p class="text-xs text-gray-600 mt-1">Sin pérdidas</p>
                         </div>
-                        <div class="format-card border-2 border-gray-200 rounded-lg p-4 text-center bg-white" data-format="webp">
-                            <div class="mx-auto bg-blue-100 rounded-full w-12 h-12 flex items-center justify-center mb-3">
-                                <i class="fas fa-file-image text-blue-600 text-xl"></i>
+                        <div class="format-card" data-format="webp">
+                            <div class="mx-auto bg-blue-100 rounded-full w-14 h-14 flex items-center justify-center mb-3">
+                                <i class="fas fa-file-image text-blue-600 text-2xl"></i>
                             </div>
                             <h3 class="font-bold text-gray-800">WEBP</h3>
                             <p class="text-xs text-gray-600 mt-1">Moderno</p>
@@ -116,10 +190,12 @@
                 
                 <!-- Control de calidad -->
                 <div class="bg-indigo-50 rounded-xl p-6">
-                    <h2 class="text-lg font-bold text-gray-800 mb-4"><i class="fas fa-tachometer-alt text-indigo-600 mr-2"></i>Calidad de Imagen</h2>
-                    <div class="flex items-center justify-between mb-2">
+                    <h2 class="text-lg font-bold text-gray-800 mb-4">
+                        <i class="fas fa-tachometer-alt text-indigo-600 mr-2"></i>Calidad de Imagen
+                    </h2>
+                    <div class="flex items-center justify-between mb-4">
                         <div class="flex items-center">
-                            <span class="bg-indigo-600 text-white rounded-full w-10 h-10 flex items-center justify-center font-bold text-sm">
+                            <span class="bg-indigo-600 text-white rounded-full w-12 h-12 flex items-center justify-center font-bold">
                                 <span id="quality-value">90</span>%
                             </span>
                             <div class="ml-4">
@@ -129,7 +205,7 @@
                         </div>
                     </div>
                     <input type="range" id="quality-slider" min="30" max="100" value="90" class="quality-slider w-full h-2 rounded">
-                    <div class="flex justify-between text-xs text-gray-500 mt-2">
+                    <div class="flex justify-between text-xs text-gray-500 mt-3">
                         <span>Baja (30%)</span>
                         <span>Media (65%)</span>
                         <span>Alta (100%)</span>
@@ -142,30 +218,32 @@
             </div>
             
             <!-- Área de carga -->
-            <div id="upload-container" class="upload-container border-3 border-dashed border-blue-300 rounded-2xl p-8 text-center cursor-pointer bg-blue-50 transition-all duration-300">
+            <div id="upload-container" class="upload-container">
                 <input type="file" id="pdf-input" class="hidden" accept="application/pdf">
-                <div class="w-20 h-20 bg-blue-200 rounded-full flex items-center justify-center mx-auto">
-                    <i class="fas fa-cloud-upload-alt text-blue-600 text-3xl"></i>
+                <div class="w-24 h-24 bg-blue-200 rounded-full flex items-center justify-center mx-auto">
+                    <i class="fas fa-cloud-upload-alt text-blue-600 text-4xl"></i>
                 </div>
-                <h3 class="text-xl font-bold text-gray-800 mt-4">Arrastra tu archivo PDF aquí</h3>
+                <h3 class="text-xl font-bold text-gray-800 mt-5">Arrastra tu archivo PDF aquí</h3>
                 <p class="text-gray-600 mt-2">o haz clic para buscar en tu dispositivo</p>
                 <p class="text-sm text-gray-500 mt-4">Formatos soportados: PDF (hasta 10MB)</p>
             </div>
             
             <!-- Información de archivo y progreso -->
             <div id="file-info" class="hidden mt-6">
-                <div class="flex items-center justify-between bg-gray-50 p-4 rounded-lg">
+                <div class="flex items-center justify-between bg-gray-50 p-5 rounded-xl">
                     <div>
                         <p class="font-medium text-gray-700">Archivo: <span id="file-name" class="font-bold text-blue-600"></span></p>
                         <p id="status" class="text-sm text-blue-600 mt-1">Preparando para la conversión...</p>
                     </div>
-                    <div id="loader" class="loader ease-linear rounded-full border-4 border-t-4 border-gray-200 h-10 w-10"></div>
+                    <div id="loader" class="loader"></div>
                 </div>
             </div>
             
             <!-- Contenedor de imágenes -->
             <div id="image-container" class="mt-8">
-                <h2 class="text-xl font-bold text-gray-800 mb-4"><i class="fas fa-images text-blue-600 mr-2"></i>Imágenes Generadas</h2>
+                <h2 class="text-xl font-bold text-gray-800 mb-4">
+                    <i class="fas fa-images text-blue-600 mr-2"></i>Imágenes Generadas
+                </h2>
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" id="images-grid">
                     <!-- Las imágenes generadas aparecerán aquí -->
                 </div>
@@ -173,7 +251,7 @@
         </div>
         
         <!-- Pie de página -->
-        <div class="bg-gray-50 p-4 text-center text-sm text-gray-600 border-t">
+        <div class="bg-gray-50 p-5 text-center text-sm text-gray-600">
             <p>Convertidor PDF a Imágenes • Soporta JPG, PNG y WEBP • Calidad ajustable</p>
         </div>
     </div>
@@ -221,7 +299,7 @@
         });
         pdfInput.addEventListener('change', handleFileSelect);
         
-        // Event listeners para controles de calidad y formato
+        // Event listeners para controles de calidad
         qualitySlider.addEventListener('input', function() {
             currentQuality = parseInt(this.value);
             qualityValue.textContent = currentQuality;
@@ -245,8 +323,9 @@
         formatCards.forEach(card => {
             card.addEventListener('click', function() {
                 // Remover clase activa de todas las tarjetas
-                formatCards.forEach(c => c.classList.remove('active', 'border-blue-300', 'bg-blue-50'));
-                c.classList.remove('border-blue-300', 'bg-blue-50');
+                formatCards.forEach(c => {
+                    c.classList.remove('active', 'border-blue-300', 'bg-blue-50');
+                });
                 
                 // Añadir clase activa a la tarjeta seleccionada
                 this.classList.add('active', 'border-blue-300', 'bg-blue-50');
@@ -380,7 +459,7 @@
             
             // Renderizar cada página con los ajustes actuales
             pdfPages.forEach(page => {
-                // Convertir el canvas a imagen con el formato y calidad actual
+                // Determinar el tipo MIME y extensión según el formato seleccionado
                 let mimeType, extension;
                 switch(currentFormat) {
                     case 'jpg':
@@ -402,6 +481,8 @@
                 
                 // Para PNG, no aplicamos calidad (es sin pérdidas)
                 const quality = (currentFormat === 'png') ? undefined : currentQuality / 100;
+                
+                // Convertir el canvas a imagen con el formato y calidad actual
                 const imageUrl = page.canvasData.toDataURL(mimeType, quality);
                 
                 createImageCard(imageUrl, page.pageNum, page.fileName, extension);
@@ -420,25 +501,25 @@
             const downloadFileName = `${baseName}_pagina_${pageNum}.${extension}`;
 
             const card = document.createElement('div');
-            card.className = 'image-card bg-white rounded-xl shadow-md overflow-hidden border border-gray-200';
+            card.className = 'image-card';
             
             card.innerHTML = `
                 <div class="p-4 bg-gray-50 border-b">
-                    <div class="flex justify-between items-center mb-2">
+                    <div class="flex justify-between items-center mb-3">
                         <h3 class="text-sm font-bold text-gray-800">Página ${pageNum}</h3>
                         <span class="px-2 py-1 bg-blue-100 text-blue-800 text-xs font-bold rounded">
                             ${extension.toUpperCase()}
                         </span>
                     </div>
                     <div class="relative">
-                        <img src="${imageUrl}" alt="Página ${pageNum}" class="w-full h-auto object-contain rounded-md" style="max-height: 200px; min-height: 180px;">
+                        <img src="${imageUrl}" alt="Página ${pageNum}" class="w-full h-auto object-contain rounded-md" style="height: 180px;">
                         <div class="absolute bottom-2 right-2 bg-black bg-opacity-60 text-white text-xs px-2 py-1 rounded">
                             ${Math.round(currentQuality)}% calidad
                         </div>
                     </div>
                 </div>
                 <div class="p-4">
-                    <a href="${imageUrl}" download="${downloadFileName}" class="download-btn w-full flex items-center justify-center bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-bold py-2 px-4 rounded-lg transition-colors duration-200">
+                    <a href="${imageUrl}" download="${downloadFileName}" class="download-btn">
                         <i class="fas fa-download mr-2"></i>
                         Descargar
                     </a>
