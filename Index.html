@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Convertidor de PDF a JPG</title>
+    <title>Convertidor de PDF a JPG con Calidad</title>
     <!-- Tailwind CSS para un diseño moderno y responsivo -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- PDF.js para procesar los archivos PDF -->
@@ -29,38 +29,131 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
+        
+        /* Estilo para el slider de calidad */
+        .quality-slider {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 8px;
+            border-radius: 4px;
+            background: linear-gradient(to right, #ef4444, #f59e0b, #10b981);
+            outline: none;
+        }
+        
+        .quality-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #3b82f6;
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+            border: 2px solid white;
+        }
+        
+        .quality-slider::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #3b82f6;
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+            border: 2px solid white;
+        }
+        
+        /* Indicador de calidad */
+        .quality-indicator {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 14px;
+            background: #3b82f6;
+            box-shadow: 0 4px 6px rgba(59, 130, 246, 0.3);
+        }
+        
+        /* Tarjeta de imagen con efecto hover */
+        .image-card {
+            transition: all 0.3s ease;
+        }
+        
+        .image-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Botón de descarga con efecto */
+        .download-btn {
+            transition: all 0.2s ease;
+        }
+        
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
     </style>
 </head>
-<body class="bg-gray-100 text-gray-800 flex items-center justify-center min-h-screen p-4">
+<body class="bg-gradient-to-br from-blue-50 to-indigo-50 text-gray-800 flex items-center justify-center min-h-screen p-4">
 
-    <div class="w-full max-w-4xl bg-white rounded-2xl shadow-lg p-6 md:p-8">
+    <div class="w-full max-w-4xl bg-white rounded-2xl shadow-xl p-6 md:p-8">
         <div class="text-center mb-8">
-            <h1 class="text-3xl md:text-4xl font-bold text-gray-900">Convertidor de PDF a JPG</h1>
-            <p class="text-gray-600 mt-2">Sube un archivo PDF para convertir cada página en una imagen JPG.</p>
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-900 bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">Convertidor de PDF a JPG</h1>
+            <p class="text-gray-600 mt-2">Sube un archivo PDF para convertir cada página en una imagen JPG con calidad ajustable</p>
         </div>
 
         <!-- Área de carga de archivos -->
         <div id="upload-container" class="border-4 border-dashed border-gray-300 rounded-2xl p-8 text-center cursor-pointer hover:border-blue-500 hover:bg-gray-50 transition-all duration-300">
             <input type="file" id="pdf-input" class="hidden" accept="application/pdf">
-            <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
-                <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-            </svg>
+            <div class="flex justify-center">
+                <svg class="h-16 w-16 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 13h6m-3-3v6m-9 1V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
+                </svg>
+            </div>
             <p class="mt-4 text-lg text-gray-600">
                 <span class="font-semibold text-blue-600">Haz clic para subir un archivo</span> o arrástralo y suéltalo aquí.
             </p>
-            <p class="text-xs text-gray-500 mt-1">Solo archivos PDF</p>
+            <p class="text-xs text-gray-500 mt-1">Solo archivos PDF (máx. 10MB)</p>
+        </div>
+        
+        <!-- Contenedor para el control de calidad -->
+        <div id="quality-control" class="mt-6 hidden">
+            <div class="flex items-center justify-between mb-2">
+                <label class="text-sm font-medium text-gray-700">Calidad de imagen:</label>
+                <div class="quality-indicator flex items-center justify-center">
+                    <span id="quality-value">90</span>%
+                </div>
+            </div>
+            <input type="range" id="quality-slider" min="30" max="100" value="90" class="quality-slider">
+            <div class="flex justify-between text-xs text-gray-500 mt-1">
+                <span>Baja (30%)</span>
+                <span>Media (65%)</span>
+                <span>Alta (100%)</span>
+            </div>
+            <p class="text-xs text-gray-500 mt-3">Calidad más alta = mejor imagen pero archivos más grandes. Calidad más baja = imágenes más pequeñas pero con menos detalle.</p>
         </div>
         
         <!-- Contenedor para el nombre del archivo y el progreso -->
         <div id="file-info" class="hidden mt-6 text-center">
             <p class="text-lg font-medium text-gray-700">Archivo: <span id="file-name" class="font-bold"></span></p>
-            <div id="loader" class="loader ease-linear rounded-full border-4 border-t-4 border-gray-200 h-12 w-12 mx-auto my-4 hidden"></div>
-            <p id="status" class="text-blue-600"></p>
+            <div class="mt-4 flex items-center justify-center">
+                <div id="loader" class="loader ease-linear rounded-full border-4 border-t-4 border-gray-200 h-12 w-12"></div>
+                <p id="status" class="text-blue-600 ml-4"></p>
+            </div>
         </div>
 
         <!-- Contenedor para las imágenes generadas -->
-        <div id="image-container" class="mt-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <div id="image-container" class="mt-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
             <!-- Las imágenes JPG se insertarán aquí -->
+        </div>
+        
+        <!-- Mensaje de ayuda -->
+        <div class="mt-8 p-4 bg-blue-50 rounded-lg text-center">
+            <p class="text-blue-700 text-sm">💡 Consejo: Para PDFs con muchas páginas, ajusta la calidad a un valor menor para reducir el tamaño total de las imágenes.</p>
         </div>
     </div>
 
@@ -76,6 +169,13 @@
         const loader = document.getElementById('loader');
         const statusText = document.getElementById('status');
         const imageContainer = document.getElementById('image-container');
+        const qualityControl = document.getElementById('quality-control');
+        const qualitySlider = document.getElementById('quality-slider');
+        const qualityValue = document.getElementById('quality-value');
+
+        // Variables de estado
+        let currentQuality = 90; // Calidad predeterminada
+        let pdfPages = []; // Almacenar datos de páginas para re-renderizar con diferente calidad
 
         // Event listeners para la carga de archivos
         uploadContainer.addEventListener('click', () => pdfInput.click());
@@ -96,6 +196,17 @@
             }
         });
         pdfInput.addEventListener('change', handleFileSelect);
+        
+        // Event listener para el slider de calidad
+        qualitySlider.addEventListener('input', function() {
+            currentQuality = parseInt(this.value);
+            qualityValue.textContent = currentQuality;
+            
+            // Si ya tenemos páginas renderizadas, volver a renderizar con la nueva calidad
+            if (pdfPages.length > 0) {
+                renderPagesWithQuality();
+            }
+        });
 
         /**
          * Maneja la selección de un archivo PDF y comienza el proceso de conversión.
@@ -104,6 +215,12 @@
         function handleFileSelect(event) {
             const file = event.target.files[0];
             if (file && file.type === 'application/pdf') {
+                // Validar tamaño (10MB máximo)
+                if (file.size > 10 * 1024 * 1024) {
+                    alert('El archivo es demasiado grande. Por favor, selecciona un PDF de menos de 10MB.');
+                    return;
+                }
+                
                 // Reiniciar la interfaz
                 imageContainer.innerHTML = '';
                 statusText.textContent = '';
@@ -111,6 +228,7 @@
                 fileInfoContainer.classList.remove('hidden');
                 loader.classList.remove('hidden');
                 uploadContainer.classList.add('hidden');
+                qualityControl.classList.remove('hidden');
 
                 // Procesar el PDF
                 processPDF(file);
@@ -134,6 +252,9 @@
                     const numPages = pdf.numPages;
                     statusText.textContent = `Procesando ${numPages} página(s)...`;
 
+                    // Limpiar páginas anteriores
+                    pdfPages = [];
+                    
                     // Procesar cada página en secuencia
                     for (let i = 1; i <= numPages; i++) {
                         statusText.textContent = `Convirtiendo página ${i} de ${numPages}...`;
@@ -155,13 +276,22 @@
                         };
                         await page.render(renderContext).promise;
 
-                        // Convertir el canvas a imagen JPG y mostrarla
-                        const jpgUrl = canvas.toDataURL('image/jpeg', 0.9); // Calidad del 90%
-                        createImageCard(jpgUrl, i, file.name);
+                        // Almacenar datos de la página para posible re-renderizado
+                        pdfPages.push({
+                            canvasData: canvas,
+                            pageNum: i,
+                            fileName: file.name
+                        });
                     }
+                    
+                    // Renderizar las páginas con la calidad actual
+                    renderPagesWithQuality();
                     
                     // Proceso completado
                     statusText.textContent = '¡Conversión completada!';
+                    setTimeout(() => {
+                        fileInfoContainer.classList.add('hidden');
+                    }, 2000);
 
                 } catch (error) {
                     console.error('Error al procesar el PDF:', error);
@@ -169,11 +299,25 @@
                     alert('Hubo un error al procesar el PDF. Asegúrate de que no esté dañado o protegido con contraseña.');
                 } finally {
                     loader.classList.add('hidden');
-                    uploadContainer.classList.remove('hidden');
                 }
             };
 
             fileReader.readAsArrayBuffer(file);
+        }
+
+        /**
+         * Renderiza todas las páginas almacenadas usando la calidad actual
+         */
+        function renderPagesWithQuality() {
+            // Limpiar contenedor de imágenes
+            imageContainer.innerHTML = '';
+            
+            // Renderizar cada página con la calidad actual
+            pdfPages.forEach(page => {
+                // Convertir el canvas a imagen JPG con la calidad actual
+                const jpgUrl = page.canvasData.toDataURL('image/jpeg', currentQuality / 100);
+                createImageCard(jpgUrl, page.pageNum, page.fileName);
+            });
         }
 
         /**
@@ -184,18 +328,23 @@
          */
         function createImageCard(jpgUrl, pageNum, originalFileName) {
             const baseName = originalFileName.replace(/\.pdf$/i, '');
-            const downloadFileName = `${baseName}_pagina_${pageNum}.jpg`;
+            const downloadFileName = `${baseName}_pagina_${pageNum}_${currentQuality}q.jpg`;
 
             const card = document.createElement('div');
-            card.className = 'bg-white rounded-lg shadow-md overflow-hidden transform hover:scale-105 transition-transform duration-300';
+            card.className = 'image-card bg-white rounded-lg shadow-md overflow-hidden';
             
-            card.innerHTML = `s
-                <div class="p-2 bg-gray-50">
-                    <img src="${jpgUrl}" alt="Página ${pageNum}" class="w-full h-auto object-contain rounded-md shadow-inner" style="max-height: 300px;">
+            card.innerHTML = `
+                <div class="p-4 bg-gray-50 border-b">
+                    <h3 class="text-sm font-medium text-center text-gray-700 mb-2">Página ${pageNum}</h3>
+                    <div class="relative">
+                        <img src="${jpgUrl}" alt="Página ${pageNum}" class="w-full h-auto object-contain rounded-md" style="max-height: 200px; min-height: 180px;">
+                        <div class="absolute bottom-2 right-2 bg-black bg-opacity-60 text-white text-xs px-2 py-1 rounded">
+                            ${Math.round(currentQuality)}% calidad
+                        </div>
+                    </div>
                 </div>
                 <div class="p-4">
-                    <p class="text-sm font-medium text-gray-700 text-center mb-3">Página ${pageNum}</p>
-                    <a href="${jpgUrl}" download="${downloadFileName}" class="w-full flex items-center justify-center bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors duration-200">
+                    <a href="${jpgUrl}" download="${downloadFileName}" class="download-btn w-full flex items-center justify-center bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-bold py-2 px-4 rounded-lg transition-colors duration-200">
                         <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
                         Descargar
                     </a>
